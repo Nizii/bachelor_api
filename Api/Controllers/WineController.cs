@@ -8,7 +8,7 @@ namespace Api.Controllers
     [ApiController]
     public class WineController : ControllerBase
     {
-
+        private string conStr = "mongodb+srv://nizamoezdemir:QdAvPanY1ql36WaR@interaktiveweinkarte.gc1ktjp.mongodb.net/test";
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _env;
         public WineController(IConfiguration configuration, IWebHostEnvironment env)
@@ -20,7 +20,7 @@ namespace Api.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            MongoClient dbClient = new MongoClient(_configuration.GetConnectionString("mongodb+srv://nizamoezdemir:QdAvPanY1ql36WaR@interaktiveweinkarte.gc1ktjp.mongodb.net/test"));
+            MongoClient dbClient = new MongoClient(conStr);
 
             var dbList = dbClient.GetDatabase("ikwdb").GetCollection<Wine>("Weine").AsQueryable();
 

@@ -2,14 +2,17 @@ namespace Api.Models
 {
     public class Wine
     {
+        private const string PHOTO_URL = "interactivemenu.azurewebsites.net/photos";
+        //private const string PHOTO_URL = "https://localhost:44322/Photos";
         public int _id { get; set; }
         public string Name { get; set; }
-        public string Weinart { get; set; }
-        public string Herkunft { get; set; }
-        public string Traubenart { get; set; }
-        public decimal Alkoholgehalt { get; set; }
-        public decimal Offenpreis { get; set; }
-        public decimal Flaschenpreis { get; set; }
-        public int Ausgewählt { get; set; }
+        public string Winetype { get; set; }
+        public string Origin { get; set; }
+        public string Grape { get; set; }
+        public decimal Alcohol { get; set; }
+        public decimal Openprice { get; set; }
+        public decimal Bottleprice { get; set; }
+        public int Selected { get; set; }
+        public string Link { get { return PHOTO_URL + Name; } }
     }
 }

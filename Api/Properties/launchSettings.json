@@ -22,7 +22,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "Wine",
+      "launchUrl": "https://localhost:44322/api/Wine",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
