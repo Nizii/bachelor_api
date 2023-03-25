@@ -13,6 +13,13 @@ namespace Api.Models
         public decimal Openprice { get; set; }
         public decimal Bottleprice { get; set; }
         public int Selected { get; set; }
+        public string Charakter { get; set; }
+        public string MatchWith { get; set; }
+        public string ServingTemperature { get; set; }
+
+        public string StorageTime { get; set; }
+        public int Year { get; set; }
+
         public string Link { get { return PHOTO_URL + Name; } }
     }
 }
