@@ -1,3 +1,5 @@
+using MongoDB.Bson;
+
 namespace Api.Models
 {
     public class Wine
@@ -19,7 +21,7 @@ namespace Api.Models
 
         public string StorageTime { get; set; }
         public int Year { get; set; }
-        public int Match { get; set; }
+        public string[] Match { get; set; }
 
 
         public string Link { get { return PHOTO_URL + Name; } }
