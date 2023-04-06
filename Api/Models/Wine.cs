@@ -23,6 +23,8 @@ namespace Api.Models
         public int Year { get; set; }
         public string[] Match { get; set; }
 
+        public string[] Profile { get; set; }
+
 
         public string Link { get { return PHOTO_URL + Name; } }
     }
