@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'interactivemenu'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E19D354192E04A9CB517B143BD032BA9 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A3592E59F2BD437685CAEE3E77CA77C8 }}
           package: .
