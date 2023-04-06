@@ -25,6 +25,7 @@ namespace Api.Models
 
         public string[] Profile { get; set; }
 
+        public int Rating { get; set; }
 
         public string Link { get { return PHOTO_URL + Name; } }
     }
