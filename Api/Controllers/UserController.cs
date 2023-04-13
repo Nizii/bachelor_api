@@ -25,7 +25,7 @@ namespace Api.Controllers
         {
             _configuration = configuration;
             _env = env;
-            var conStr = "mongodb+srv://nizamoezdemir:QdAvPanY1ql36WaR@interaktiveweinkarte.gc1ktjp.mongodb.net/test";
+            var conStr = _configuration["ConnectionString:Key"];
             var client = new MongoClient(conStr);
             var database = client.GetDatabase("ikwdb");
             _users = database.GetCollection<User>("User");
@@ -39,6 +39,40 @@ namespace Api.Controllers
 
             return new JsonResult(dbList);
         }
+
+        /*
+        [HttpGet]
+        [Route("favoriten")]
+        public async Task<IActionResult> GetFavoriten()
+        {
+            try
+            {
+                var userNameClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+                if (userNameClaim == null)
+                {
+                    return Unauthorized();
+                }
+
+                var userName = userNameClaim.Value;
+
+                var filter = Builders<User>.Filter.Eq(u => u.Username, userName);
+                var user = await _users.Find(filter).FirstOrDefaultAsync();
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var favoriten = user.Favoriten;
+
+                return Ok(favoriten);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        */
 
         // https://localhost:44322/api/User/login
         [HttpPost]
@@ -57,7 +91,6 @@ namespace Api.Controllers
                 return Unauthorized();
             }
 
-            // Wenn der Benutzer authentifiziert ist, generieren Sie einen JWT-Token und senden ihn an das Frontend.
             var token = GenerateJwtToken(user);
             return Ok(new { token });
         }
@@ -99,9 +132,8 @@ namespace Api.Controllers
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Secret"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-            new Claim(ClaimTypes.Name, user.Username),
+                Subject = new ClaimsIdentity(new Claim[] { 
+                    new Claim(ClaimTypes.Name, user.Username),
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

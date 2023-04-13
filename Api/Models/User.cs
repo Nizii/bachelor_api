@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Api.Models
 {
@@ -15,6 +16,10 @@ namespace Api.Models
         [BsonElement("Password")]
         public string Password { get; set; }
 
+        /*
+        [BsonElement("Favoriten")]
+        public string[] Favoriten { get; set; }
+       */
     }
 
 }
