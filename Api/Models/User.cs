@@ -16,10 +16,7 @@ namespace Api.Models
         [BsonElement("Password")]
         public string Password { get; set; }
 
-        /*
         [BsonElement("Favoriten")]
-        public string[] Favoriten { get; set; }
-       */
+        public string[] Favoriten { get; set; } = Array.Empty<string>();
     }
-
 }

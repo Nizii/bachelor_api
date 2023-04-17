@@ -5,6 +5,7 @@ using System.Text;
 using static System.Net.WebRequestMethods;
 
 var builder = WebApplication.CreateBuilder(args);
+var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Secret"]);
 
 // Add services to the container.
 
@@ -17,13 +18,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
+           
             ValidateIssuer = true,
-            ValidateAudience = true,
+            ValidateAudience = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = "https://localhost:44322/",
-            ValidAudience = "https://localhost:44322/",
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Jwt:Secret"))
+           
+            ValidIssuer = "https://localhost:44322/api/user",
+            ValidAudiences = new List<string>
+                {
+                        "http://localhost:3000/login",
+                        "http://localhost:3000/profile",
+                        "http://localhost:3000/",
+                        "https://localhost:3000/login",
+                        "https://localhost:3000/profile",
+                        "https://localhost:3000/"
+                },
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Secret"]))
         };
     });
 

@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using static Api.Controllers.UserController;
 using BCrypt.Net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
@@ -36,17 +37,24 @@ namespace Api.Controllers
         public JsonResult Get()
         {
             var dbList = _users.AsQueryable();
+            Console.WriteLine("Test");
 
             return new JsonResult(dbList);
         }
 
-        /*
+        
         [HttpGet]
-        [Route("favoriten")]
+        //[Authorize]
+        [Route("userdata")]
         public async Task<IActionResult> GetFavoriten()
         {
             try
             {
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return Unauthorized();
+                }
+
                 var userNameClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
                 if (userNameClaim == null)
                 {
@@ -66,18 +74,18 @@ namespace Api.Controllers
                 var favoriten = user.Favoriten;
 
                 return Ok(favoriten);
+
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-        */
 
         // https://localhost:44322/api/User/login
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] User model)
+        public async Task<IActionResult> Login([FromBody] UserAuth model)
         {
             var user = await _userManager.Get(model.Username);
 
@@ -94,20 +102,34 @@ namespace Api.Controllers
             var token = GenerateJwtToken(user);
             return Ok(new { token });
         }
+   
+
 
         // https://localhost:44322/api/User/reg
         [HttpPost]
         [Route("reg")]
-        public async Task<IActionResult> CreateUser([FromBody] User model)
+        public async Task<IActionResult> CreateUser([FromBody] UserAuth model)
         {
             if (string.IsNullOrEmpty(model.Username) || string.IsNullOrEmpty(model.Password))
             {
                 return BadRequest();
             }
-            model.Password = HashPassword(model.Password);
-            await _users.InsertOneAsync(model);
 
-            return Ok(model);
+            // Erstellen Sie ein User-Objekt aus dem UserAuth-Objekt
+            var user = CreateUserFromUserAuth(model);
+            await _users.InsertOneAsync(user);
+
+            return Ok(user);
+        }
+
+        private User CreateUserFromUserAuth(UserAuth userAuth)
+        {
+            return new User
+            {
+                Username = userAuth.Username,
+                Password = HashPassword(userAuth.Password),
+                Favoriten = Array.Empty<string>()
+            };
         }
 
 
@@ -130,11 +152,14 @@ namespace Api.Controllers
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Secret"]);
+            var key2 = _configuration["Jwt:Secret"].ToString();
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[] { 
+                Subject = new ClaimsIdentity(new Claim[]
+                {
                     new Claim(ClaimTypes.Name, user.Username),
                 }),
+                Issuer = "https://localhost:44322/api/user",
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
