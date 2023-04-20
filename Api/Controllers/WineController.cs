@@ -1,4 +1,6 @@
 using Api.Models;
+using Azure;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 
@@ -25,6 +27,24 @@ namespace Api.Controllers
             var dbList = dbClient.GetDatabase("ikwdb").GetCollection<Wine>("Weine").AsQueryable();
 
             return new JsonResult(dbList);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateRating(int id)
+        {
+            MongoClient dbClient = new MongoClient(conStr);
+            var collection = dbClient.GetDatabase("ikwdb").GetCollection<Wine>("Weine");
+
+            var wineToUpdate = collection.Find(w => w._id == id).FirstOrDefault();
+            if (wineToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            var updateDefinition = Builders<Wine>.Update.Inc(w => w.Rating, 1);
+            collection.UpdateOne(w => w._id == id, updateDefinition);
+
+            return NoContent();
         }
     }
 }
