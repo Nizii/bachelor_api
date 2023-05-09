@@ -102,8 +102,8 @@ namespace Api.Controllers
             var token = GenerateJwtToken(user);
             return Ok(new { token });
         }
-   
 
+        // Test kann gelöscht werden
 
         // https://localhost:44322/api/User/reg
         [HttpPost]
