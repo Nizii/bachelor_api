@@ -103,7 +103,7 @@ namespace Api.Controllers
             return Ok(new { token });
         }
 
-        // Testdcockdojdkd
+        // Testdcockdojdkddokcd
 
         // https://localhost:44322/api/User/reg
         [HttpPost]
