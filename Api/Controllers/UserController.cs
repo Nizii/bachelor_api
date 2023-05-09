@@ -103,7 +103,7 @@ namespace Api.Controllers
             return Ok(new { token });
         }
 
-        // Test kann gelöscht werden
+        // Test
 
         // https://localhost:44322/api/User/reg
         [HttpPost]
