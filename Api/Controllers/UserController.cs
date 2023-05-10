@@ -11,6 +11,7 @@ using System.Text;
 using static Api.Controllers.UserController;
 using BCrypt.Net;
 using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
 
 namespace Api.Controllers
 {
@@ -44,7 +45,7 @@ namespace Api.Controllers
 
         
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         [Route("userdata")]
         public async Task<IActionResult> GetFavoriten()
         {
@@ -168,7 +169,7 @@ namespace Api.Controllers
             {
                 Username = userAuth.Username,
                 Password = HashPassword(userAuth.Password),
-                Favoriten = Array.Empty<string>()
+                Favoriten = new List<string>()
             };
         }
 
@@ -206,6 +207,7 @@ namespace Api.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
 
 
         public class UserManager
