@@ -12,6 +12,7 @@ using static Api.Controllers.UserController;
 using BCrypt.Net;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
+using MongoDB.Bson;
 
 namespace Api.Controllers
 {
@@ -20,6 +21,7 @@ namespace Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly IMongoCollection<User> _users;
+        private readonly IMongoCollection<Wine> _wines;
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _env;
         private readonly UserManager _userManager;
@@ -31,7 +33,9 @@ namespace Api.Controllers
             var client = new MongoClient(conStr);
             var database = client.GetDatabase("ikwdb");
             _users = database.GetCollection<User>("User");
+            _wines = database.GetCollection<Wine>("Weine");
             _userManager = new UserManager(database);
+
         }
 
         [HttpGet]
@@ -51,31 +55,19 @@ namespace Api.Controllers
         {
             try
             {
-                if (!User.Identity.IsAuthenticated)
-                {
-                    return Unauthorized();
-                }
-
                 var userNameClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
                 if (userNameClaim == null)
                 {
                     return Unauthorized();
                 }
-
                 var userName = userNameClaim.Value;
-
                 var filter = Builders<User>.Filter.Eq(u => u.Username, userName);
                 var user = await _users.Find(filter).FirstOrDefaultAsync();
-
                 if (user == null)
                 {
                     return NotFound();
                 }
-
-                var favoriten = user.Favoriten;
-
-                return Ok(favoriten);
-
+                return Ok(user);
             }
             catch (Exception ex)
             {
@@ -84,36 +76,36 @@ namespace Api.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("add-favorite/{wineId}")]
         [Authorize]
-        [Route("add-favorite")]
-        public async Task<IActionResult> AddFavorite([FromBody] string wineId)
-            {
+        [Route("add-favorite/{wineId}")]
+        public async Task<IActionResult> AddFavorite(string wineId)
+        {
             try
-                {
+            {
                 var userNameClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
                 if (userNameClaim == null)
                 {
                     return Unauthorized();
                 }
-
                 var userName = userNameClaim.Value;
-
                 var filter = Builders<User>.Filter.Eq(u => u.Username, userName);
                 var user = await _users.Find(filter).FirstOrDefaultAsync();
-
                 if (user == null)
                 {
                     return NotFound();
                 }
-
-                if (!user.Favoriten.Contains(wineId))
+                var wine = await GetWeinById(wineId);
+                if (wine == null)
                 {
-                    user.Favoriten.Add(wineId);
+                    return NotFound("Wein nicht gefunden");
+                }
+                if (!user.Favoriten.Any(f => f._id == int.Parse(wineId)))
+                {
+                    user.Favoriten.Add(wine);
                     var update = Builders<User>.Update.Set(u => u.Favoriten, user.Favoriten);
                     await _users.UpdateOneAsync(filter, update);
                 }
-
                 return Ok();
             }
             catch (Exception ex)
@@ -123,8 +115,17 @@ namespace Api.Controllers
         }
 
 
-    // https://localhost:44322/api/User/login
-    [HttpPost]
+
+        private async Task<Wine> GetWeinById(string wineId)
+        {
+            var filter = Builders<Wine>.Filter.Eq(w => w._id, int.Parse(wineId));
+            return await _wines.Find(filter).FirstOrDefaultAsync();
+        }
+
+
+
+        // https://localhost:44322/api/User/login
+        [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] UserAuth model)
         {
@@ -169,7 +170,7 @@ namespace Api.Controllers
             {
                 Username = userAuth.Username,
                 Password = HashPassword(userAuth.Password),
-                Favoriten = new List<string>()
+                Favoriten = new List<Wine>()
             };
         }
 

@@ -29,6 +29,7 @@ namespace Api.Controllers
             return new JsonResult(dbList);
         }
 
+        /*
         [HttpPut("{id}")]
         public IActionResult UpdateRating(int id)
         {
@@ -46,5 +47,6 @@ namespace Api.Controllers
 
             return NoContent();
         }
+        */
     }
 }
