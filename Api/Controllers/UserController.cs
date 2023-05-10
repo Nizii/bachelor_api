@@ -82,8 +82,48 @@ namespace Api.Controllers
             }
         }
 
-        // https://localhost:44322/api/User/login
+
         [HttpPost]
+        [Authorize]
+        [Route("add-favorite")]
+        public async Task<IActionResult> AddFavorite([FromBody] string wineId)
+            {
+            try
+                {
+                var userNameClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+                if (userNameClaim == null)
+                {
+                    return Unauthorized();
+                }
+
+                var userName = userNameClaim.Value;
+
+                var filter = Builders<User>.Filter.Eq(u => u.Username, userName);
+                var user = await _users.Find(filter).FirstOrDefaultAsync();
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                if (!user.Favoriten.Contains(wineId))
+                {
+                    user.Favoriten.Add(wineId);
+                    var update = Builders<User>.Update.Set(u => u.Favoriten, user.Favoriten);
+                    await _users.UpdateOneAsync(filter, update);
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+
+    // https://localhost:44322/api/User/login
+    [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] UserAuth model)
         {

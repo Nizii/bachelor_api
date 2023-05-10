@@ -40,6 +40,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 var app = builder.Build();
+app.UseHttpsRedirection();
+
 app.UseCors(builder => builder
     .AllowAnyOrigin()
     .AllowAnyMethod()
@@ -53,7 +55,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
