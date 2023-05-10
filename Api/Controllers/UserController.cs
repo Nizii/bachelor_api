@@ -75,6 +75,44 @@ namespace Api.Controllers
             }
         }
 
+        [HttpPost("remove-favorite/{wineId}")]
+        [Authorize]
+        [Route("remove-favorite/{wineId}")]
+        public async Task<IActionResult> RemoveFavorite(string wineId)
+        {
+            try
+            {
+                var userNameClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+                if (userNameClaim == null)
+                {
+                    return Unauthorized();
+                }
+                var userName = userNameClaim.Value;
+                var filter = Builders<User>.Filter.Eq(u => u.Username, userName);
+                var user = await _users.Find(filter).FirstOrDefaultAsync();
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                var wine = await GetWeinById(wineId);
+                if (wine == null)
+                {
+                    return NotFound("Wein nicht gefunden");
+                }
+                if (user.Favoriten.Any(f => f._id == int.Parse(wineId)))
+                {
+                    user.Favoriten.RemoveAll(f => f._id == int.Parse(wineId));
+                    var update = Builders<User>.Update.Set(u => u.Favoriten, user.Favoriten);
+                    await _users.UpdateOneAsync(filter, update);
+                }
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
 
         [HttpPost("add-favorite/{wineId}")]
         [Authorize]
