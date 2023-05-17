@@ -49,7 +49,6 @@ namespace Api.Controllers
 
         
         [HttpGet]
-        [Authorize]
         [Route("userdata")]
         public async Task<IActionResult> GetFavoriten()
         {
@@ -76,7 +75,6 @@ namespace Api.Controllers
         }
 
         [HttpPost("remove-favorite/{wineId}")]
-        [Authorize]
         [Route("remove-favorite/{wineId}")]
         public async Task<IActionResult> RemoveFavorite(string wineId)
         {
@@ -114,8 +112,7 @@ namespace Api.Controllers
         }
 
 
-        [HttpPost("add-favorite/{wineId}")]
-        [Authorize]
+        [HttpPost("add-favorite/{wineId}")]  
         [Route("add-favorite/{wineId}")]
         public async Task<IActionResult> AddFavorite(string wineId)
         {

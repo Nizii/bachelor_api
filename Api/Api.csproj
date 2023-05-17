@@ -25,4 +25,16 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Imgs\1.PNG" />
+    <None Remove="Imgs\2.PNG" />
+    <None Remove="Imgs\3.PNG" />
+    <None Remove="Imgs\4.PNG" />
+    <None Remove="Imgs\5.PNG" />
+    <None Remove="Imgs\6.PNG" />
+    <None Remove="Imgs\7.PNG" />
+    <None Remove="Imgs\8.PNG" />
+    <None Remove="Imgs\9.PNG" />
+  </ItemGroup>
+
 </Project>
