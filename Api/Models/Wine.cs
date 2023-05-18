@@ -4,7 +4,7 @@ namespace Api.Models
 {
     public class Wine
     {
-        private const string PHOTO_URL = "interactivemenu.azurewebsites.net/Imgs/";
+        private const string PHOTO_URL = "wine.azurewebsites.net/Imgs/";
         //private const string PHOTO_URL = "https://localhost:44322/Imgs/";
         public int _id { get; set; }
         public string Name { get; set; }
