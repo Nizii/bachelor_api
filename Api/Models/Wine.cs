@@ -28,6 +28,7 @@ namespace Api.Models
         public string RegionTag { get; set; }
         public string[] CharacterTags { get; set; }
 
+        public string[] Comments { get; set; }
         public string[] Profile { get; set; }
 
         public int Rating { get; set; }
