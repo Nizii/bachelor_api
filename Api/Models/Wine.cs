@@ -33,6 +33,8 @@ namespace Api.Models
 
         public int Rating { get; set; }
 
+        public string Vinzer { get; set; }
+
 
         public string Link { get { return PHOTO_URL + _id.ToString()+ ".png"; } }
     }
