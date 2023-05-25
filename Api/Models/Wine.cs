@@ -35,6 +35,8 @@ namespace Api.Models
 
         public string Vinzer { get; set; }
 
+        public int[] radarchart { get; set; }
+
 
         public string Link { get { return PHOTO_URL + _id.ToString()+ ".png"; } }
     }
