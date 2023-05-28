@@ -2,8 +2,8 @@
 {
     public class Comment
     {
-        public string comment { get; set; }
-        public string username { get; set; }
+        public string author { get; set; }
+        public string content { get; set; }
     }
 
 }

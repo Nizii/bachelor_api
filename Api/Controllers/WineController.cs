@@ -42,10 +42,12 @@ namespace Api.Controllers
                 return NotFound();
             }
 
-            var update = Builders<Wine>.Update.Push(w => w.Comments, commentModel.comment);
+            var commentArray = new[] { commentModel.author, commentModel.content };
+            var update = Builders<Wine>.Update.Push(w => w.Comments, commentArray);
             await wines.UpdateOneAsync(filter, update);
             return Ok();
         }
+
 
 
 
