@@ -162,7 +162,7 @@ namespace Api.Controllers
         // https://localhost:44322/api/User/login
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] UserAuth model)
+        public async Task<IActionResult> Login([FromBody] UserLogin model)
         {
             var user = await _userManager.Get(model.Username);
 
@@ -183,7 +183,7 @@ namespace Api.Controllers
         // https://localhost:44322/api/User/reg
         [HttpPost]
         [Route("reg")]
-        public async Task<IActionResult> CreateUser([FromBody] UserAuth model)
+        public async Task<IActionResult> CreateUser([FromBody] UserRegistration model)
         {
             if (string.IsNullOrEmpty(model.Username) || string.IsNullOrEmpty(model.Password))
             {
@@ -192,6 +192,13 @@ namespace Api.Controllers
 
             // Überprüfe, ob der Benutzername bereits existiert
             var existingUser = await _users.Find(u => u.Username == model.Username).FirstOrDefaultAsync();
+            if (existingUser != null)
+            {
+                return BadRequest("User bereits vorhanden");
+            }
+
+            // Überprüfe, ob der Benutzername bereits existiert
+            var existingEmail = await _users.Find(u => u.Email == model.Email).FirstOrDefaultAsync();
             if (existingUser != null)
             {
                 return BadRequest("Email bereits vorhanden");
