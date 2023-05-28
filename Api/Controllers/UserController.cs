@@ -187,7 +187,7 @@ namespace Api.Controllers
         {
             if (string.IsNullOrEmpty(model.Username) || string.IsNullOrEmpty(model.Password))
             {
-                return BadRequest();
+                return BadRequest("Interner Fehler");
             }
 
             // Überprüfe, ob der Benutzername bereits existiert
@@ -211,7 +211,7 @@ namespace Api.Controllers
             return Ok(user);
         }
 
-        private User CreateUserFromUserAuth(UserAuth userAuth)
+        private User CreateUserFromUserAuth(UserRegistration userAuth)
         {
             return new User
             {
