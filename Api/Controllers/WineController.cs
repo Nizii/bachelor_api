@@ -30,7 +30,7 @@ namespace Api.Controllers
         }
 
         [HttpPost("{wineId}/comments")]
-        public async Task<IActionResult> AddComment(string wineId, [FromBody] string comment)
+        public async Task<IActionResult> AddComment(string wineId, [FromBody] Comment commentModel)
         {
             var client = new MongoClient(conStr);
             var database = client.GetDatabase("ikwdb");
@@ -42,10 +42,12 @@ namespace Api.Controllers
                 return NotFound();
             }
 
-            var update = Builders<Wine>.Update.Push(w => w.Comments, comment);
+            var update = Builders<Wine>.Update.Push(w => w.Comments, commentModel.comment);
             await wines.UpdateOneAsync(filter, update);
             return Ok();
         }
+
+
 
 
 
