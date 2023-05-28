@@ -12,6 +12,9 @@ namespace Api.Models
 
         [BsonElement("Username")]
         public string Username { get; set; }
+        
+        [BsonElement("Email")]
+        public string Email { get; set; }
 
         [BsonElement("Password")]
         public string Password { get; set; }
