@@ -29,6 +29,26 @@ namespace Api.Controllers
             return new JsonResult(dbList);
         }
 
+        [HttpPost("{wineId}/comments")]
+        public async Task<IActionResult> AddComment(string wineId, [FromBody] string comment)
+        {
+            var client = new MongoClient(conStr);
+            var database = client.GetDatabase("ikwdb");
+            var wines = database.GetCollection<Wine>("Weine");
+            var filter = Builders<Wine>.Filter.Eq(w => w._id, int.Parse(wineId));
+            var wine = await wines.Find(filter).FirstOrDefaultAsync();
+            if (wine == null)
+            {
+                return NotFound();
+            }
+
+            var update = Builders<Wine>.Update.Push(w => w.Comments, comment);
+            await wines.UpdateOneAsync(filter, update);
+            return Ok();
+        }
+
+
+
         /*
         [HttpPut("{id}")]
         public IActionResult UpdateRating(int id)
