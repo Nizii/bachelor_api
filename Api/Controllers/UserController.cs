@@ -180,8 +180,6 @@ namespace Api.Controllers
             return Ok(new { token });
         }
 
-        // Testdcockdojdkddokcd
-
         // https://localhost:44322/api/User/reg
         [HttpPost]
         [Route("reg")]
@@ -192,7 +190,14 @@ namespace Api.Controllers
                 return BadRequest();
             }
 
-            // Erstellen Sie ein User-Objekt aus dem UserAuth-Objekt
+            // Überprüfe, ob der Benutzername bereits existiert
+            var existingUser = await _users.Find(u => u.Username == model.Username).FirstOrDefaultAsync();
+            if (existingUser != null)
+            {
+                return BadRequest("Email bereits vorhanden");
+            }
+
+            // Erstelle ein User-Objekt aus dem UserAuth-Objekt
             var user = CreateUserFromUserAuth(model);
             await _users.InsertOneAsync(user);
 

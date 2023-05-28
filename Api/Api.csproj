@@ -37,4 +37,8 @@
     <None Remove="Imgs\9.PNG" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Imgs\Flags\" />
+  </ItemGroup>
+
 </Project>
