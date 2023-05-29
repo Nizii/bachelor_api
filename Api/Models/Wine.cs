@@ -33,7 +33,7 @@ namespace Api.Models
 
         public int Rating { get; set; }
 
-        public string Vinzer { get; set; }
+        public string Winzer { get; set; }
 
         public int[] radarchart { get; set; }
 
