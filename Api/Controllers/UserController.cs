@@ -157,6 +157,8 @@ namespace Api.Controllers
             }
         }
 
+
+
         [HttpDelete]
         [Route("delete/{username}")]
         public async Task<IActionResult> DeleteUser(string username)
@@ -221,7 +223,7 @@ namespace Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-
+      
 
 
         private async Task<Wine> GetWeinById(string wineId)
