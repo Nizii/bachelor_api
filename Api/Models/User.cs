@@ -21,5 +21,8 @@ namespace Api.Models
 
         [BsonElement("Favoriten")]
         public List<Wine> Favoriten { get; set; } = new List<Wine>();
+
+        [BsonElement("Radarchart")]
+        public int[] Radarchart { get; set; }
     }
 }

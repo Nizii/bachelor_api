@@ -47,7 +47,7 @@ namespace Api.Controllers
             return new JsonResult(dbList);
         }
 
-        
+
         [HttpGet]
         [Route("userdata")]
         public async Task<IActionResult> GetFavoriten()
@@ -66,13 +66,21 @@ namespace Api.Controllers
                 {
                     return NotFound();
                 }
-                return Ok(user);
+
+                var userData = new
+                {
+                    Favoriten = user.Favoriten,
+                    Radarchart = user.Radarchart
+                };
+
+                return Ok(userData);
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
 
         [HttpPost("remove-favorite/{wineId}")]
         [Route("remove-favorite/{wineId}")]
@@ -149,6 +157,41 @@ namespace Api.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("update-taste-profile")]
+        public async Task<IActionResult> UpdateTasteProfile([FromBody] TasteProfile model)
+        {
+            try
+            {
+                var userNameClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+                if (userNameClaim == null)
+                {
+                    return Unauthorized();
+                }
+                var userName = userNameClaim.Value;
+                if (userName != model.Username)
+                {
+                    return BadRequest("Falscher User, Username nicht akzeptiert");
+                }
+
+                var filter = Builders<User>.Filter.Eq(u => u.Username, userName);
+                var user = await _users.Find(filter).FirstOrDefaultAsync();
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var update = Builders<User>.Update.Set(u => u.Radarchart, model.Radarchart);
+                await _users.UpdateOneAsync(filter, update);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
 
 
         private async Task<Wine> GetWeinById(string wineId)
@@ -217,7 +260,8 @@ namespace Api.Controllers
             {
                 Username = userAuth.Username,
                 Password = HashPassword(userAuth.Password),
-                Favoriten = new List<Wine>()
+                Favoriten = new List<Wine>(),
+                Radarchart = new int[5] { 0, 0, 0, 0, 0 }
             };
         }
 
