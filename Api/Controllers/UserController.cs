@@ -279,11 +279,12 @@ namespace Api.Controllers
                 return BadRequest("Email bereits vorhanden");
             }
 
-            // Erstelle ein User-Objekt aus dem UserAuth-Objekt
             var user = CreateUserFromUserAuth(model);
             await _users.InsertOneAsync(user);
 
-            return Ok(user);
+            // Generiere den Token
+            var token = GenerateJwtToken(user);
+            return Ok(new { user, token });
         }
 
         private User CreateUserFromUserAuth(UserRegistration userAuth)
