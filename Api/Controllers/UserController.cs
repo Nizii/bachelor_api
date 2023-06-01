@@ -159,7 +159,7 @@ namespace Api.Controllers
 
         [HttpPost]
         [Route("update-taste-profile")]
-        public async Task<IActionResult> UpdateTasteProfile([FromBody] TasteProfile model)
+        public async Task<IActionResult> UpdateTasteProfile([FromBody] Tasteprofile model)
         {
             try
             {

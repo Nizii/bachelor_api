@@ -1,6 +1,6 @@
 ﻿namespace Api.Models
 {
-    public class TasteProfile
+    public class Tasteprofile
     {
         public string Username { get; set; }
         public int[] Radarchart { get; set; }
