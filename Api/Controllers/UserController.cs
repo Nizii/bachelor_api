@@ -157,6 +157,36 @@ namespace Api.Controllers
             }
         }
 
+        [HttpDelete]
+        [Route("delete/{username}")]
+        public async Task<IActionResult> DeleteUser(string username)
+        {
+            try
+            {
+                var userNameClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+                if (userNameClaim == null)
+                {
+                    return Unauthorized();
+                }
+
+                var filter = Builders<User>.Filter.Eq(u => u.Username, username);
+                var user = await _users.Find(filter).FirstOrDefaultAsync();
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                await _users.DeleteOneAsync(filter);
+                return Ok("User deleted successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+
         [HttpPost]
         [Route("update-taste-profile")]
         public async Task<IActionResult> UpdateTasteProfile([FromBody] Tasteprofile model)
