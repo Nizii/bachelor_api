@@ -160,13 +160,13 @@ namespace Api.Controllers
         [HttpPost]
         [Route("update-taste-profile")]
         public async Task<IActionResult> UpdateTasteProfile([FromBody] Tasteprofile model)
-        {
+        {  
             try
             {
                 var userNameClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
                 if (userNameClaim == null)
                 {
-                    return Unauthorized();
+                    return Unauthorized("Nix Zutritt");
                 }
                 var userName = userNameClaim.Value;
                 if (userName != model.Username)
@@ -178,12 +178,12 @@ namespace Api.Controllers
                 var user = await _users.Find(filter).FirstOrDefaultAsync();
                 if (user == null)
                 {
-                    return NotFound();
+                    return NotFound("Nix User gefunden");
                 }
 
                 var update = Builders<User>.Update.Set(u => u.Radarchart, model.Radarchart);
                 await _users.UpdateOneAsync(filter, update);
-
+            
                 return Ok();
             }
             catch (Exception ex)
