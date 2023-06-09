@@ -2,15 +2,12 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using static System.Net.WebRequestMethods;
 
 var builder = WebApplication.CreateBuilder(args);
 var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Secret"]);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -18,12 +15,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-           
+            
             ValidateIssuer = true,
             ValidateAudience = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-           
             ValidIssuer = "https://localhost:44322/api/user",
             ValidAudiences = new List<string>
                 {
@@ -38,7 +34,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-
 var app = builder.Build();
 app.UseHttpsRedirection();
 
@@ -47,24 +42,22 @@ app.UseCors(builder => builder
     .AllowAnyMethod()
     .AllowAnyHeader()
 );
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Imgs")),
     RequestPath = "/Imgs"
 });
-
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "img-bottle")),
+    RequestPath = "/img-bottle"
+});
 app.Run();

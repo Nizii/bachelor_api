@@ -5,6 +5,7 @@ namespace Api.Models
     public class Wine
     {
         private const string PHOTO_URL = "https://wine.azurewebsites.net/Imgs/";
+        private const string PHOTO_URL2 = "https://wine.azurewebsites.net/Imgs-bottle/";
         //private const string PHOTO_URL = "https://localhost:44322/Imgs/";
         public int _id { get; set; }
         public string Name { get; set; }
@@ -18,7 +19,6 @@ namespace Api.Models
         public string Charakter { get; set; }
         public string MatchWith { get; set; }
         public string ServingTemperature { get; set; }
-
         public string StorageTime { get; set; }
         public int Year { get; set; }
         public string[] Match { get; set; }
@@ -27,17 +27,13 @@ namespace Api.Models
         public string NationTag { get; set; }
         public string RegionTag { get; set; }
         public string[] CharacterTags { get; set; }
-
         public string[][] Comments { get; set; }
         public string[] Profile { get; set; }
-
         public int Rating { get; set; }
-
         public string Winzer { get; set; }
-
         public int[] radarchart { get; set; }
-
-
         public string Link { get { return PHOTO_URL + _id.ToString()+ ".png"; } }
+        public string Link2 { get { return PHOTO_URL2 + _id.ToString() + ".png"; } }
+
     }
 }

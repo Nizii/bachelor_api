@@ -158,7 +158,6 @@ namespace Api.Controllers
         }
 
 
-
         [HttpDelete]
         [Route("delete/{username}")]
         public async Task<IActionResult> DeleteUser(string username)
@@ -224,17 +223,12 @@ namespace Api.Controllers
             }
         }
       
-
-
         private async Task<Wine> GetWeinById(string wineId)
         {
             var filter = Builders<Wine>.Filter.Eq(w => w._id, int.Parse(wineId));
             return await _wines.Find(filter).FirstOrDefaultAsync();
         }
 
-
-
-        // https://localhost:44322/api/User/login
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] UserLogin model)
@@ -246,6 +240,7 @@ namespace Api.Controllers
                 return Unauthorized();
             }
 
+
             if (!VerifyPassword(model.Password, user.Password))
             {
                 return Unauthorized();
@@ -255,7 +250,6 @@ namespace Api.Controllers
             return Ok(new { token });
         }
 
-        // https://localhost:44322/api/User/reg
         [HttpPost]
         [Route("reg")]
         public async Task<IActionResult> CreateUser([FromBody] UserRegistration model)

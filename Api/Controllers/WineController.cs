@@ -47,7 +47,5 @@ namespace Api.Controllers
             await wines.UpdateOneAsync(filter, update);
             return Ok();
         }
-
-
     }
 }
