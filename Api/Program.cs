@@ -58,6 +58,6 @@ app.UseStaticFiles(new StaticFileOptions
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "img-bottle")),
-    RequestPath = "/img-bottle"
+    RequestPath = "/Img-bottle"
 });
 app.Run();
