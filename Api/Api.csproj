@@ -26,6 +26,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Imgs-bottle\1.png" />
+    <None Remove="Imgs-bottle\10.png" />
+    <None Remove="Imgs-bottle\11.png" />
+    <None Remove="Imgs-bottle\12.png" />
+    <None Remove="Imgs-bottle\13.png" />
+    <None Remove="Imgs-bottle\14.png" />
+    <None Remove="Imgs-bottle\15.png" />
+    <None Remove="Imgs-bottle\16.png" />
+    <None Remove="Imgs-bottle\17.png" />
+    <None Remove="Imgs-bottle\18.png" />
+    <None Remove="Imgs-bottle\19.png" />
+    <None Remove="Imgs-bottle\2.png" />
+    <None Remove="Imgs-bottle\20.png" />
+    <None Remove="Imgs-bottle\21.png" />
+    <None Remove="Imgs-bottle\3.png" />
+    <None Remove="Imgs-bottle\4.png" />
+    <None Remove="Imgs-bottle\5.png" />
+    <None Remove="Imgs-bottle\6.png" />
+    <None Remove="Imgs-bottle\7.png" />
+    <None Remove="Imgs-bottle\8.png" />
+    <None Remove="Imgs-bottle\9.png" />
     <None Remove="Imgs\1.png" />
     <None Remove="Imgs\10.png" />
     <None Remove="Imgs\11.png" />
@@ -47,6 +68,72 @@
     <None Remove="Imgs\7.png" />
     <None Remove="Imgs\8.png" />
     <None Remove="Imgs\9.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Imgs-bottle\1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\10.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\11.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\13.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\14.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\15.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\17.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\18.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\19.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\20.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\21.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\6.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\7.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\8.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Imgs-bottle\9.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
